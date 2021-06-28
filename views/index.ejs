@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <%- include('./Partials/head.ejs') %>
+    <script src="static/indexScript.js" defer></script>
+    <title>Home</title>
+</head>
+
+<body>
+
+    <%- include('./Partials/nav.ejs')  %>
+
+    <!-- Overlay start -->
+    <div class="container-fluid cont1" id="overlay">
+
+        <input type="search" placeholder="Search Product" class="form-control search-overlay" style="font-size: larger;"
+            onkeyup="search()">
+        <button type="button" class="btn btn-danger" onclick="off()"
+            style="float: right;margin-top: -2.7%;margin-right:10%;">X</button>
+
+        <div class="prod">
+
+            <% data.forEach((element,index) => { %>
+
+            <div class="card" id="<%= element.pname %>">
+                <h6 class="card-header">Product name : <%= element.pname %></h6>
+                <div class="card-body">
+                    <h6 style="display: inline;" class="card-title">Price : <%= element.price.toFixed(2) %> Rs. </h6>
+                    <a style="float: right;" href="#" class="btn btn-outline-success"
+                        onclick="addToBill('<%= element._id %>','<%= element.pname %>','<%= element.price %>');  off(); addToTotal('<%= element.price %>');">add</a>
+                </div>
+            </div>
+
+            <% }) %>
+
+        </div>
+    </div>
+
+    <!-- overlay ends -->
+
+    <div class="container cont2">
+        <div class="input-group mb-3">
+            <div class="input-group-prepend">
+                <span class="input-group-text" id="inputGroup-sizing-default">Customer Name</span>
+            </div>
+            <input id="cname" type="text" class="form-control" aria-label="Default"
+                aria-describedby="inputGroup-sizing-default" required>
+
+            <div class="input-group-prepend" style="margin-left: 20px;">
+                <span class="input-group-text" id="inputGroup-sizing-default">Mobile no</span>
+            </div>
+            <input id="mobno" type="text" class="form-control" aria-label="Default"
+                aria-describedby="inputGroup-sizing-default" style="max-width: 20%;" required>
+
+            <table class="table table-striped" style="margin-top: 20px; ">
+                <thead class="thead-dark">
+                    <tr>
+                        <th scope="col">Sr no.</th>
+                        <th scope="col">Product name</th>
+                        <th scope="col">Price (INR)</th>
+                        <th scope="col">Quantity</th>
+                    </tr>
+                </thead>
+                <tbody class="table-body">
+
+                </tbody>
+            </table>
+            <div style="width: 100%; position: relative;">
+                <button type="button" class="btn btn-outline-success"
+                    style="font-size: larger; position: absolute; top: 0;" onclick="on()"> + ADD
+                </button>
+
+                <button type="button" class="btn btn-outline-primary"
+                    style="position:absolute; top: 60px; font-size: larger;" onclick="generateBill();">Generate
+                    Bill</button>
+
+                <div class="card text-white bg-dark mb-3"
+                    style="max-width: 14rem; right: 0px; position: absolute; top: 0; margin-top: 0;background-color: rgb(75, 23, 23);">
+                    <div class="card-header">
+                        <h3>Total : <span class="total">0.00</span></h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

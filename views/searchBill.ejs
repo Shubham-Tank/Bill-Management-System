@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>search bill</title>
+    <%- include('./Partials/head.ejs') %>
+
+    <script defer>
+
+        function getBill(id) {
+            location.replace("/getBill/" + id)
+        }
+
+
+        async function getBillsByCustomer() {
+            const cname = document.querySelector('.search').value
+            const target = document.querySelector('.customers')
+            target.innerHTML = ''
+            console.log(target.innerHTML)
+
+            const d = await fetch('/fetchByName/' + cname)
+            const data = await d.json()
+
+
+            data.forEach(element => {
+                let ele = `<div class="border border-info card bg-white text-info" id="${element._id}" style="margin-top: 10px;cursor:pointer" onclick="getBill('${element._id}')">
+                                <h6 class="card-header">
+                                    <span> Customer name : &nbsp;${element.customer_name} </span>
+                                    <span style="float:right"> Bill id : &nbsp;${element._id} </span>
+                                </h6>
+                                <span style="padding:5px">
+                                    <span class="m-2"> Total : &nbsp;${element.total} Rs. </span>
+                                    <span style="float:right;"> ${new Date(element.createdAt).toLocaleTimeString()} &nbsp; &nbsp; ${new Date(element.createdAt).toDateString()} </span>
+                                </span>
+                            </div>`;
+                target.insertAdjacentHTML('afterend', ele);
+            });
+        }
+
+        async function getBillsById() {
+            const id = document.querySelector('.search').value
+
+            const temp = document.querySelector('.customers')
+            temp.innerHTML = ''
+
+            const t = document.createElement('div')
+            t.className = 'target'
+            temp.append(t)
+
+            const target = document.querySelector('.target')
+
+            const d = await fetch('/fetchById/' + id)
+            const data = await d.json()
+
+            let ele = `<div class="border border-info card bg-white text-info" id="${data._id}" style="margin-top: 10px; cursor:pointer" onclick="getBill('${data._id}')">
+                                <h6 class="card-header">
+                                    <span> Customer name : &nbsp;${data.customer_name} </span>
+                                    <span style="float:right"> Bill id : &nbsp;${data._id} </span>
+                                </h6>
+                                <span style="padding:5px">
+                                    <span class="m-2"> Total : &nbsp;${data.total} Rs. </span>
+                                    <span style="float:right;"> ${new Date(data.createdAt).toLocaleTimeString()} &nbsp; &nbsp; ${new Date(data.createdAt).toDateString()} </span>
+                                </span>
+                            </div>`;
+            target.insertAdjacentHTML('afterend', ele);
+
+        }
+
+        function search() {
+            const option = document.querySelector('.custom-select')
+            if (option.value == 1) {
+                getBillsByCustomer()
+            }
+            else if (option.value == 2) {
+                getBillsById()
+            }
+        }
+
+    </script>
+
+</head>
+
+<body>
+    <%- include('./Partials/nav.ejs') %>
+
+    <div class="container">
+        <div class="input-group mb-3" style="margin-top: 10px; width: 60%; margin-left: auto; margin-right: auto;">
+            <input type="search" placeholder="Search" class="form-control search" style="font-size: large;" required>
+            <span class="input-group-prepend">
+                <label class="input-group-text" for="inputGroupSelect01"> by </label>
+            </span>
+            <span style="width: 200px;">
+                <select class="custom-select" id="inputGroupSelect01" style="font-size:large;">
+                    <option selected>Choose...</option>
+                    <option value="1">Customer name</option>
+                    <option value="2">Bill id</option>
+                </select>
+            </span>
+            <span>
+                <button class="btn btn-info" style="font-size: large; " onclick="search()"> search </button>
+            </span>
+        </div>
+
+        <div class="customers">
+        </div>
+    </div>
+
+
+</body>
+
+</html>

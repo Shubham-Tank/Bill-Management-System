@@ -1,0 +1,22 @@
+<nav class="navbar navbar-expand-lg navbar-dark" style="border-radius: 4px; background-color: purple;">
+    <a class="navbar-brand" href="/" style="color: rgb(207, 108, 41);">
+        BillGenerator
+    </a>
+
+    <div class="collapse navbar-collapse" id="navbarNav" style="margin-left: 23%;">
+        <ul class="navbar-nav ml-5">
+            <li class="nav-item nav-home <% if(url=='/'){ %> active <% } %> ">
+                <a class="nav-link" href="/">Create Bill <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item nav-showProd <% if(url=='/showProducts'){ %> active <% } %> ml-3">
+                <a class="nav-link" href="/showProducts">Show Products</a>
+            </li>
+            <li class="nav-item nav-about <% if(url=='/searchBill'){ %> active <% } %> ml-3">
+                <a class="nav-link" href="/searchBill">Bill Inquiries</a>
+            </li>
+            <li class="nav-item nav-about <% if(url=='/about'){ %> active <% } %> ml-3">
+                <a class="nav-link" href="/about">about</a>
+            </li>
+        </ul>
+    </div>
+</nav>

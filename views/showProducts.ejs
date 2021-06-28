@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Show Products</title>
+    <%- include('./Partials/head.ejs') %>
+    <script src="/static/indexScript.js" defer></script>
+</head>
+
+<body>
+    <%- include('./Partials/nav.ejs') %>
+
+    <div id="overlay" style="background-color: rgba(0,0,0,0.8);">
+        <button type="button" class="btn btn-danger" onclick="off()"
+            style="float: right;margin-top: 5%;margin-right:10%;">X</button>
+
+        <form action="/addProduct" method="POST" class="form-addProd">
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="basic-addon1">Product Name</span>
+                </div>
+                <input type="text" class="form-control" name="pname" required>
+            </div>
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="basic-addon1">Price</span>
+                </div>
+                <input type="text" class="form-control" name="price" required>
+                <div class="input-group-append">
+                    <span class="input-group-text">Rs.</span>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-success"> Add </button>
+        </form>
+    </div>
+
+    <div class="container" style="position: relative;">
+        <input type="search" placeholder="Search Product" class="form-control search-overlay"
+            style="font-size: large;margin-top: 10px;" onkeyup="search()">
+
+        <button type="button" class="btn btn-outline-success"
+            style="font-size: large; position: relative; left: 68%;top: 15px; bottom: 10px;" onclick="on()"> +
+            ADD New
+            Product
+        </button>
+
+        <div class="prod" style="position: relative;top: 15px;">
+
+            <% data.forEach((element,index) => { %>
+
+            <div class="border border-info card bg-white text-info" id="<%= element.pname %>" style="margin-top: 10px;">
+                <h6 class="card-header">
+                    <span>Product name : &nbsp;<%= element.pname %></span>
+                    <span>
+                        <a class="btn btn-outline-danger btn-sm" style="float: right;"
+                            href="/deleteProd/<%= element._id %>">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                class="bi bi-trash-fill" viewBox="0 0 16 16">
+                                <path
+                                    d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0z" />
+                            </svg>
+                        </a>
+                    </span>
+                </h6>
+                <span class="m-2 ml-4">Price : &nbsp;<%= element.price.toFixed(2) %> Rs. </span>
+
+            </div>
+
+            <% }) %>
+
+        </div>
+    </div>
+</body>
+
+</html>
